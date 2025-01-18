@@ -17,47 +17,7 @@ export default function Tasks(props) {
     ];
     return (
         <div className='container my-3'>
-            <div className='row'>
-                <div className='col-md-10'>
-                    <div className="btn-group">
-                        <button className="btn text-white rounded-pill dropdown-toggle" data-bs-toggle="dropdown" href="/" style={{ backgroundColor: props.mode }} role="button"
-                            aria-expanded="false">
-                            Year 2025-26
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">2025</a></li>
-                            <li><a className="dropdown-item" href="#">2024</a></li>
-                            <li><a className="dropdown-item" href="#">2023</a></li>
-                            <li><a className="dropdown-item" href="#">2022</a></li>
-                            <li><a className="dropdown-item" href="#">2021</a></li>
-                        </ul>
-                    </div>
-                    <div className="btn-group mx-2">
-                        <button className="btn text-white rounded-pill dropdown-toggle" data-bs-toggle="dropdown" href="/" style={{ backgroundColor: props.mode }} role="button"
-                            aria-expanded="false">
-                            Months
-                        </button>
-                        <ul className="dropdown-menu" >
-                            {months.map((elements) => {
-                                return (
-                                    <li key={elements.id}>
-                                        <a className="dropdown-item" href="#">
-                                            {elements.name}
-                                        </a>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-
-                </div>
-                <div className='col-md-2'>
-                    <button className="btn text-white rounded-pill" style={{ backgroundColor: props.mode }}>
-                        <i className="bi bi-plus-circle-fill text-white mx-2"></i>
-                        Add
-                    </button>
-                </div>
-            </div>
+            
 
 
             <div className='row my-3'>

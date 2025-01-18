@@ -1,8 +1,12 @@
 import Navbar from './Component/Navbar';
-import SideBar from './Component/SideBar';
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
-import Tasks from './Component/Tasks';
+import Tasks from './Component/Tasks/Tasks';
+import Home from './Component/Home'
+import About from './Component/About'
+import LogState from './context/Logs/LogStata';
+import TaskState from './context/Tasks/TaskState';
 
 function App() {
   const [mode, setThemeMode] = useState('#40916c');
@@ -13,7 +17,7 @@ function App() {
     if (mode === '#40916c') {
       setThemeMode('dark');
       setDarkModeEnabled(true);
- 
+
       document.body.style.backgroundColor = '#111111';
       document.body.style.color = 'white';
     }
@@ -24,16 +28,16 @@ function App() {
       document.body.style.color = 'white';
     }
   }
-  
-  const allTasks =[{
-    "id":"1",
+
+  const allTasks = [{
+    "id": "1",
     "taskName": "January",
     "task1": "Take Bath",
     "task2": "Change chaddi",
     "task3": "Study"
   },
   {
-    "id":"2",
+    "id": "2",
     "taskName": "February",
     "task1": "Take Bath",
     "task2": "Change chaddi",
@@ -42,9 +46,20 @@ function App() {
 
   return (
     <>
-      <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled}  />
-      {/* <SideBar mode={mode} /> */}
-      <Tasks mode={mode} allTasks={allTasks}/>
+      <TaskState>
+        <LogState>
+          <BrowserRouter>
+            <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
+            <div className='container'>
+              <Routes>
+                <Route path='/tasks:id' element={<Tasks mode={mode} allTasks={allTasks} />} />
+                <Route path='/' element={<Home />} />
+                <Route path='/about' element={<About />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </LogState>
+      </TaskState>
     </>
   );
 }
