@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Tasks from './Component/Tasks/Tasks';
 import Home from './Component/Home'
 import About from './Component/About'
-import LogState from './context/Logs/LogStata';
+import LogState from './context/Logs/LogState';
 import TaskState from './context/Tasks/TaskState';
 
 function App() {
@@ -29,20 +29,20 @@ function App() {
     }
   }
 
-  const allTasks = [{
-    "id": "1",
-    "taskName": "January",
-    "task1": "Take Bath",
-    "task2": "Change chaddi",
-    "task3": "Study"
-  },
-  {
-    "id": "2",
-    "taskName": "February",
-    "task1": "Take Bath",
-    "task2": "Change chaddi",
-    "task3": "Study"
-  }]
+  // const allTasks = [{
+  //   "id": "1",
+  //   "taskName": "January",
+  //   "task1": "Take Bath",
+  //   "task2": "Change chaddi",
+  //   "task3": "Study"
+  // },
+  // {
+  //   "id": "2",
+  //   "taskName": "February",
+  //   "task1": "Take Bath",
+  //   "task2": "Change chaddi",
+  //   "task3": "Study"
+  // }]
 
   return (
     <>
@@ -50,10 +50,10 @@ function App() {
         <LogState>
           <BrowserRouter>
             <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
-            <div className='container'>
+            <div className='container my-3'>
               <Routes>
-                <Route path='/tasks:id' element={<Tasks mode={mode} allTasks={allTasks} />} />
-                <Route path='/' element={<Home />} />
+                <Route path='/tasks/:id' element={<Tasks mode={mode} />} />
+                <Route path='/' element={<Home mode={mode} />} />
                 <Route path='/about' element={<About />} />
               </Routes>
             </div>

@@ -1,27 +1,14 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
 
 export default function Tasks(props) {
-    const months = [
-        { "id": 1, "name": "January" },
-        { "id": 2, "name": "February" },
-        { "id": 3, "name": "March" },
-        { "id": 4, "name": "April" },
-        { "id": 5, "name": "May" },
-        { "id": 6, "name": "June" },
-        { "id": 7, "name": "July" },
-        { "id": 8, "name": "August" },
-        { "id": 9, "name": "September" },
-        { "id": 10, "name": "October" },
-        { "id": 11, "name": "November" },
-        { "id": 12, "name": "December" }
-    ];
+    const { id } = useParams();
+    console.log(id)
     return (
-        <div className='container my-3'>
-            
-
-
+        <div>
             <div className='row my-3'>
-                {
+                hi tasks
+                {/* {
                     props.allTasks.map((elements) => {
                         return <div className='col-md-4' key={elements.id}>
                             <div className="card my-2" style={{ width: '18rem' }}>
@@ -46,7 +33,7 @@ export default function Tasks(props) {
                             </div>
                         </div>
                     })
-                }
+                } */}
             </div>
         </div>
     )

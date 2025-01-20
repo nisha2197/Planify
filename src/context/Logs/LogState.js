@@ -1,17 +1,17 @@
 import logsContext from './LogsContext'
-import { use, useState } from 'react'
+import { useState } from 'react'
 import api from '../../Environment/environment'
 
 const LogState = (props) => {
     const apiUrl = api;
-    const [logs, setLogs] = useState([]);
+    const [logs, setLogs] = useState();
     const [year, setYear] = useState([]);
     const [months, setMonth] = useState([]);
     const currentYear = new Date().getFullYear();
-
+    const [selectedYear, setSelectedYear] = useState(currentYear);
+    const currentMonthIndex = new Date().getMonth() + 1;
     //Get Month
-    const getAllYear = async() =>{
-        console.log(currentYear);
+    const getAllYear = async () => {
         // API Call 
         const response = await fetch(`${apiUrl}/year`, {
             method: 'GET',
@@ -22,13 +22,22 @@ const LogState = (props) => {
         });
         const json = await response.json()
         setYear(json)
-        getMonthsByYear(currentYear);
+        getMonthsByYear(selectedYear);
+
+        if (months != []) {
+            const response = await fetch(`${apiUrl}/log?userId=1&month=${currentMonthIndex}&year=${selectedYear}`, {
+                method: 'GET',
+            });
+            const json = await response.json()
+            setLogs(json)
+        }
     }
 
     //Get Month
-    const getMonthsByYear = async() =>{
+    const getMonthsByYear = async (years) => {
         // API Call 
-        const response = await fetch(`${apiUrl}/year/${year}/month`, {
+        setSelectedYear(years)
+        const response = await fetch(`${apiUrl}/year/${years}/month`, {
             method: 'GET',
             headers: {
                 // 'Content-Type': 'application/json',
@@ -40,9 +49,9 @@ const LogState = (props) => {
     }
 
     // Get all Logs
-    const getAllLogs = async () => {
-        // API Call 
-        const response = await fetch(`${apiUrl}/log`, {
+    const getAllLogs = async (selectedMonth, selectedYear) => {
+        const monthsDict = months.indexOf(selectedMonth) + 1;
+        const response = await fetch(`${apiUrl}/log?userId=1&month=${monthsDict}&year=${selectedYear}`, {
             method: 'GET',
             headers: {
                 // 'Content-Type': 'application/json',
@@ -53,9 +62,11 @@ const LogState = (props) => {
         setLogs(json)
     }
 
-    <logsContext.Provider value={{logs,getAllLogs,year,getAllYear,months,getMonthsByYear}}>
-        {props.children}
-    </logsContext.Provider>
+    return (
+        <logsContext.Provider value={{ logs, getAllLogs, year, getAllYear, months, getMonthsByYear, selectedYear }}>
+            {props.children}
+        </logsContext.Provider>
+    )
 
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function Navbar(props) {
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg" style={{backgroundColor: props.mode}} 
