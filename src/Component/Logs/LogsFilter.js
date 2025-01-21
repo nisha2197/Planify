@@ -3,7 +3,7 @@ import logsContext from '../../context/Logs/LogsContext';
 const LogsFilter = (props) => {
 
   const context = useContext(logsContext);
-  const { year, getAllYear, months,getMonthsByYear,selectedYear,getAllLogs} = context;
+  const { year, getAllYear, months,getMonthsByYear,selectedYear,getAllLogs,addlog } = context;
   //
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const LogsFilter = (props) => {
 
       </div>
       <div className='col-md-2'>
-        <button className="btn text-white rounded-pill" style={{ backgroundColor: props.mode }}>
+        <button className="btn text-white rounded-pill" style={{ backgroundColor: props.mode }} onClick={()=>addlog()}>
           <i className="bi bi-plus-circle-fill text-white mx-2"></i>
           Add
         </button>

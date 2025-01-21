@@ -9,6 +9,7 @@ const LogState = (props) => {
     const [months, setMonth] = useState([]);
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [selectedMonth, setSelectedMonth] = useState('');
     const currentMonthIndex = new Date().getMonth() + 1;
     //Get Month
     const getAllYear = async () => {
@@ -50,6 +51,7 @@ const LogState = (props) => {
 
     // Get all Logs
     const getAllLogs = async (selectedMonth, selectedYear) => {
+        setSelectedMonth(selectedMonth);
         const monthsDict = months.indexOf(selectedMonth) + 1;
         const response = await fetch(`${apiUrl}/log?userId=1&month=${monthsDict}&year=${selectedYear}`, {
             method: 'GET',
@@ -61,9 +63,39 @@ const LogState = (props) => {
         const json = await response.json()
         setLogs(json)
     }
+    // Add Log
+    const addlog = async (date) => {
+        
+        // API Call 
+        const response = await fetch(`${apiUrl}/log`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
+            },
+            body: JSON.stringify({ logDate :'' })
+        });
+    }
+    // delete Logs
+    const deleteLogById = async (logId) => {
+        const response = await fetch(`${apiUrl}/log/${logId}`, {
+            method: 'DELETE',
+            headers: {
+                // 'Content-Type': 'application/json',
+                // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
+            }
+        });
+        const json = await response.json()
+        setLogs(json)
+        let currentDate = new Date();
+        let options = { month: 'long' }; // 'long' gives the full month name
+        currentDate = currentDate.toLocaleString('en-US', options);
+        getAllLogs(currentDate, selectedYear);
+    }
+
 
     return (
-        <logsContext.Provider value={{ logs, getAllLogs, year, getAllYear, months, getMonthsByYear, selectedYear }}>
+        <logsContext.Provider value={{ logs, getAllLogs, year, getAllYear, months, getMonthsByYear, selectedYear, deleteLogById, addlog }}>
             {props.children}
         </logsContext.Provider>
     )

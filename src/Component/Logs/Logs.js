@@ -15,7 +15,7 @@ const Logs = (props) => {
         
     }
     const context = useContext(logsContext);
-    const { logs, getAllYear } = context;
+    const { logs, getAllYear,deleteLogById } = context;
     //const currentMonthIndex = new Date().getMonth() + 1;
     useEffect(() => {
         getAllYear()
@@ -44,7 +44,7 @@ const Logs = (props) => {
                                     </div>
                                     <div>
                                         <i className="bi bi-eye-fill mx-2 fs-5" style={iconColor} onClick={()=> GotoViewTasks(element._id)}></i>
-                                        <i className="bi bi-trash3-fill fs-5" style={iconColor}></i>
+                                        <i className="bi bi-trash3-fill fs-5" style={iconColor} onClick={()=>deleteLogById(element._id,)}></i>
                                     </div>
                                 </div>
                             </div>

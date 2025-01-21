@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.table-green {
+  background-color: #40916c;
+  --bs-table-bg: none;
+  --bs-table-color: none;
+  --bs-table-hover-color:none
+}
+
+.table-gray {
+  background-color: #40916c;
+  --bs-table-bg: none;
+  --bs-table-color: none;
+  --bs-table-hover-color:none
+}
+
+.table-body{
+  background-color: #2c2929;
+  --bs-table-bg: none;
+  --bs-table-color: none;
+  --bs-table-hover-color:none
+}
+
+.table {
+  border-color: #3e4349;
+}
