@@ -5,7 +5,7 @@ import taskContext from '../../context/Tasks/TaskContext';
 export default function Tasks(props) {
     const { id } = useParams();
     const context = useContext(taskContext);
-    const { getTasksByLogId, tasks, deleteTaskById, editTaskById, addTask } = context;
+    const { getTasksByLogId, tasks, deleteTaskById, editTaskById, addTaskById } = context;
 
     const [newTask, setNewTask] = useState({ description: '', status: 'Pending' });
     const [isAddingTask, setIsAddingTask] = useState(false); // Flag to toggle the task form
@@ -32,9 +32,11 @@ export default function Tasks(props) {
     const handleAddTask = (e) => {
         e.preventDefault();
         if (newTask.description) {
-            addTask(newTask, id); // Make sure the addTask function exists in context
+            let obj = { description: newTask.description, status: newTask.status, logId: id }
+            addTaskById(obj); // Make sure the addTask function exists in context
             setNewTask({ description: '', status: 'Pending' }); // Reset form
             setIsAddingTask(false); // Close the form after submission
+            console.log(obj)
         }
     };
 
@@ -95,27 +97,19 @@ export default function Tasks(props) {
                                     <th scope='row'>{index + 1}</th>
                                     <td>
                                         {editingTaskId === element._id ? (
-                                            <input
-                                                type='text'
-                                                name='description'
-                                                value={editedTask.description}
-                                                onChange={handleEditChange}
-                                                className='form-control'
-                                            />
+                                            <input type='text' name='description' value={editedTask.description}
+                                                onChange={handleEditChange} className='form-control' />
                                         ) : (
                                             element.description
                                         )}
                                     </td>
                                     <td>
                                         {editingTaskId === element._id ? (
-                                            <select
-                                                name='status'
-                                                value={editedTask.status}
-                                                onChange={handleEditChange}
-                                                className='form-control'
-                                            >
+                                            <select name='status' value={editedTask.status}
+                                                onChange={handleEditChange} className='form-control'>
                                                 <option value='Pending'>Pending</option>
-                                                <option value='Completed'>Completed</option>
+                                                <option value='In Progress'>In Progress</option>
+                                                <option value='Done'>Done</option>
                                             </select>
                                         ) : (
                                             element.status
@@ -124,37 +118,26 @@ export default function Tasks(props) {
                                     <td>
                                         {editingTaskId === element._id ? (
                                             <>
-                                                <button
-                                                    className='btn btn-success fs-5 mx-2'
-                                                    onClick={handleSaveEdit}
-                                                >
+                                                <button className='btn btn-success fs-5 mx-2'
+                                                    onClick={handleSaveEdit}>
                                                     Save
                                                 </button>
-                                                <button
-                                                    className='btn btn-danger fs-5 mx-2'
-                                                    onClick={handleCancelEdit}
-                                                >
+                                                <button className='btn btn-danger fs-5 mx-2'
+                                                    onClick={handleCancelEdit} >
                                                     Cancel
                                                 </button>
                                             </>
                                         ) : (
                                             <>
-                                                <i
-                                                    className='bi bi-trash3-fill fs-5 mx-2'
+                                                <i className='bi bi-pen-fill fs-5'
+                                                    style={iconColor}
+                                                    onClick={() => handleEditTask(element._id, element.description, element.status)}>
+                                                </i>
+                                                <i className='bi bi-trash3-fill fs-5 mx-2'
                                                     style={iconColor}
                                                     onClick={() => deleteTaskById(element._id, id)}
                                                 ></i>
-                                                <i
-                                                    className='bi bi-pen-fill fs-5'
-                                                    style={iconColor}
-                                                    onClick={() =>
-                                                        handleEditTask(
-                                                            element._id,
-                                                            element.description,
-                                                            element.status
-                                                        )
-                                                    }
-                                                ></i>
+
                                             </>
                                         )}
                                     </td>
@@ -171,24 +154,16 @@ export default function Tasks(props) {
                             <tr>
                                 <td>{tasks.length + 1}</td>
                                 <td>
-                                    <input
-                                        type='text'
-                                        name='description'
-                                        value={newTask.description}
-                                        onChange={handleAddTaskChange}
-                                        placeholder='Enter Task Description'
-                                        className='form-control'
+                                    <input type='text' name='description' value={newTask.description}
+                                        onChange={handleAddTaskChange} placeholder='Enter Task Description' className='form-control'
                                     />
                                 </td>
                                 <td>
-                                    <select
-                                        name='status'
-                                        value={newTask.status}
-                                        onChange={handleAddTaskChange}
-                                        className='form-control'
-                                    >
+                                    <select name='status' value={newTask.status}
+                                        onChange={handleAddTaskChange} className='form-control'>
                                         <option value='Pending'>Pending</option>
-                                        <option value='Completed'>Completed</option>
+                                        <option value='In Progress'>In Progress</option>
+                                        <option value='Done'>Done</option>
                                     </select>
                                 </td>
                                 <td>
@@ -209,8 +184,7 @@ export default function Tasks(props) {
             {!isAddingTask && (
                 <button
                     className='btn btn-primary mb-3'
-                    onClick={handleAddNewRow} // Trigger the form to add a new task
-                >
+                    onClick={handleAddNewRow}>
                     Add Task
                 </button>
             )}

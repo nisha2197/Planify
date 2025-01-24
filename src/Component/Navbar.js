@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import authContext from '../context/Auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(props) {
 
+    // const context = useContext(authContext);
+    // const { isAuthenticated, logout } = context
+
+    // const navigate = useNavigate();
+
+    // const handleLogout = () => {
+    //     logout();
+    //     navigate('/'); // Redirect to the login page after logout
+    // };
     return (
         <div>
-            <nav className="navbar navbar-expand-lg" style={{backgroundColor: props.mode}} 
-            data-bs-theme={`${props.mode}`}>
+            <nav className="navbar navbar-expand-lg" style={{ backgroundColor: props.mode }}
+                data-bs-theme={`${props.mode}`}>
                 <div className="container-fluid">
                     <a className="navbar-brand text-white" href="/">Planify</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +39,7 @@ export default function Navbar(props) {
                             <input className="form-check-input text-center" type="checkbox" role="switch" onClick={props.toggleThemMode} id="flexSwitchCheckDefault" />
                             {!props.isDarkModeEnabled && <a><i className="bi bi-brightness-high-fill"></i></a>}
                         </div>
-
+                        {/* {isAuthenticated && <button onClick={handleLogout}>Logout</button>} */}
                     </div>
                 </div>
             </nav>

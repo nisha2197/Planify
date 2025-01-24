@@ -65,16 +65,23 @@ const LogState = (props) => {
     }
     // Add Log
     const addlog = async (date) => {
-        
         // API Call 
+        const obj = {
+            userId: '1',
+            logDate: date.toLocaleDateString()
+        }
         const response = await fetch(`${apiUrl}/log`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
             },
-            body: JSON.stringify({ logDate :'' })
+            body: JSON.stringify(obj)
         });
+        let currentDate = new Date();
+        let options = { month: 'long' }; // 'long' gives the full month name
+        currentDate = currentDate.toLocaleString('en-US', options);
+        getAllLogs(currentDate, selectedYear);
     }
     // delete Logs
     const deleteLogById = async (logId) => {

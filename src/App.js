@@ -7,6 +7,9 @@ import Home from './Component/Home'
 import About from './Component/About'
 import LogState from './context/Logs/LogState';
 import TaskState from './context/Tasks/TaskState';
+import Login from './Component/Auth/Login';
+import AuthState from './context/Auth/AuthState';
+import AuthRoute from './Component/Auth/AuthRoute';
 
 function App() {
   const [mode, setThemeMode] = useState('#40916c');
@@ -46,20 +49,25 @@ function App() {
 
   return (
     <>
+      {/* <AuthState> */}
       <TaskState>
         <LogState>
           <BrowserRouter>
             <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
             <div className='container my-3'>
               <Routes>
+                {/* Protect tasks route with PrivateRoute */}
+                {/* <AuthRoute path='/tasks/:id' element={<Tasks mode={mode} />} /> */}
                 <Route path='/tasks/:id' element={<Tasks mode={mode} />} />
                 <Route path='/' element={<Home mode={mode} />} />
                 <Route path='/about' element={<About />} />
+                {/* <Route path='/' element={<Login />} /> */}
               </Routes>
             </div>
           </BrowserRouter>
         </LogState>
       </TaskState>
+      {/* </AuthState> */}
     </>
   );
 }
