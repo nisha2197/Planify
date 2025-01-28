@@ -8,8 +8,9 @@ import About from './Component/About'
 import LogState from './context/Logs/LogState';
 import TaskState from './context/Tasks/TaskState';
 import Login from './Component/Auth/Login';
-import AuthState from './context/Auth/AuthState';
 import AuthRoute from './Component/Auth/AuthRoute';
+import AuthState from './context/Auth/AuthState';
+import SignUp from './Component/Auth/SignUp';
 
 function App() {
   const [mode, setThemeMode] = useState('#40916c');
@@ -32,42 +33,29 @@ function App() {
     }
   }
 
-  // const allTasks = [{
-  //   "id": "1",
-  //   "taskName": "January",
-  //   "task1": "Take Bath",
-  //   "task2": "Change chaddi",
-  //   "task3": "Study"
-  // },
-  // {
-  //   "id": "2",
-  //   "taskName": "February",
-  //   "task1": "Take Bath",
-  //   "task2": "Change chaddi",
-  //   "task3": "Study"
-  // }]
-
   return (
     <>
-      {/* <AuthState> */}
-      <TaskState>
-        <LogState>
-          <BrowserRouter>
-            <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
-            <div className='container my-3'>
+      <AuthState>
+        <TaskState>
+          <LogState>
+            <BrowserRouter>
+              <AuthRoute element={<Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />} />
               <Routes>
                 {/* Protect tasks route with PrivateRoute */}
-                {/* <AuthRoute path='/tasks/:id' element={<Tasks mode={mode} />} /> */}
-                <Route path='/tasks/:id' element={<Tasks mode={mode} />} />
-                <Route path='/' element={<Home mode={mode} />} />
-                <Route path='/about' element={<About />} />
-                {/* <Route path='/' element={<Login />} /> */}
+                <Route
+                  path='/tasks/:id'
+                  element={<AuthRoute element={<Tasks mode={mode} />} />}
+                />
+                {/* <Route path='/tasks/:id' element={<Tasks mode={mode} />} /> */}
+                <Route path='/home' element={<AuthRoute element={<Home mode={mode} />} />}/>
+                <Route path='/about' element={<AuthRoute element={<About />} />}/>
+                <Route path='/login'  element={<Login />} />
+                <Route path='/signup' element={<SignUp />} />
               </Routes>
-            </div>
-          </BrowserRouter>
-        </LogState>
-      </TaskState>
-      {/* </AuthState> */}
+            </BrowserRouter>
+          </LogState>
+        </TaskState>
+      </AuthState>
     </>
   );
 }

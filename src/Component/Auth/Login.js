@@ -1,45 +1,82 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authContext from '../../context/Auth/AuthContext';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+const {logout,setIsAuthenticated} = useContext(authContext)
+
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const context = useContext(authContext)
-    const { login } = context
-    const navigate = useNavigate();
+    const [rememberMe, setRememberMe] = useState(false);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+    const navigate = useNavigate()
 
-        // Here you should send the credentials to your backend for authentication
-        // For now, we're just simulating a successful login
-        if (username === 'user' && password === 'password') {
-            login('auth_token_example'); // Simulate successful login with a token
-            navigate('/home'); // Redirect to home after login
-        } else {
-            alert('Invalid credentials');
-        }
-    };
+    const login = (token) => {
+        localStorage.setItem('auth_token', token); // Use 'auth_token'
+        setIsAuthenticated(true);
+        navigate(`/home`);
+      };
+    
+    // const handleSubmit = (e) => {
+    //     // e.preventDefault();
+    //     // // Handle login logic here
+    //     // console.log("Logged in with", email, password, rememberMe);
+        
+    // };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-            </form>
+        <div className="d-flex justify-content-center align-items-center login" style={{ height: '100vh' }} >
+            <div className="card p-4 login-box" >
+                <h2 className="text-center mb-4">Login</h2>
+                <form>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email address</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-3 form-check">
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="rememberMe"
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                        />
+                        <label className="form-check-label" htmlFor="rememberMe">Remember me</label>
+                    </div>
+
+                    <button className="btn btn-primary w-100" onClick={login}>Log In</button>
+                </form>
+
+                <div className="mt-3 text-center">
+                    <Link to="/forgot-password">Forgot your password?</Link>
+                </div>
+
+                <div className="mt-2 text-center">
+                    <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+                </div>
+            </div>
         </div>
     );
 };

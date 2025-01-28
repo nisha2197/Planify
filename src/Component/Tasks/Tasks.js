@@ -78,7 +78,7 @@ export default function Tasks(props) {
     };
 
     return (
-        <div>
+        <div className='container my-3'>
             {/* Table */}
             <div className='row my-3'>
                 <table className='table table-bordered table-hover text-white'>
@@ -183,7 +183,7 @@ export default function Tasks(props) {
             {/* Button to Add New Task */}
             {!isAddingTask && (
                 <button
-                    className='btn btn-primary mb-3'
+                    className='btn btn-color mb-3'
                     onClick={handleAddNewRow}>
                     Add Task
                 </button>

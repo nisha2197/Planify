@@ -1,17 +1,18 @@
-import React, { useContext } from 'react'
-import { Route, Navigate } from 'react-router-dom';
-import authContext from '../../context/Auth/AuthContext'
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import authContext from '../../context/Auth/AuthContext';
 
-const AuthRoute = ({ element, ...rest }) => {
+const AuthRoute = ({ element }) => {
+    const { isAuthenticated } = useContext(authContext);
+    console.log(isAuthenticated)
+    // If not authenticated, redirect to login
+    if (!isAuthenticated) {
+        // Check if the requested component is Login or SignUp to redirect properly
+        return <Navigate to="/signup" />;
+    }
 
-    const context = useContext(authContext);
-    const { isAuthenticated } = context
-    return (
-        <Route
-            {...rest}
-            render={() => (isAuthenticated ? element : <Navigate to="/" />)}
-        />
-    )
-}
+    // If authenticated, render the protected element
+    return element;
+};
 
-export default AuthRoute
+export default AuthRoute;

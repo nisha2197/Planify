@@ -5,7 +5,7 @@ import LogsFilter from './Logs/LogsFilter'
 const Home = (props) => {
   
   return (
-    <div>
+    <div className='container my-3'>
       <LogsFilter mode={props.mode} />
       <Logs mode={props.mode} />
     </div>

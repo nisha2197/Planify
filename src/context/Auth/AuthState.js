@@ -1,28 +1,25 @@
-import authContext from './AuthContext';
 import { useEffect, useState } from 'react';
+import authContext from './AuthContext';
 
 const AuthState = (props) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to false, change as needed
 
     useEffect(() => {
-        const token = localStorage.getItem('auth-token');
+        const token = localStorage.getItem('auth_token'); // Use 'auth_token' for consistency
+        
         if (token) {
-            setIsAuthenticated(true);
+            setIsAuthenticated(null);
         }
     }, []);
 
-    const login = (token) => {
-        localStorage.setItem('auth_token', token);
-        setIsAuthenticated(true);
-    };
 
     const logout = () => {
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_token'); // Use 'auth_token'
         setIsAuthenticated(false);
     };
 
     return (
-        <authContext.Provider value={{ isAuthenticated, login, logout }}>
+        <authContext.Provider value={{ isAuthenticated, logout, setIsAuthenticated }}>
             {props.children}
         </authContext.Provider>
     );
