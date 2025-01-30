@@ -1,20 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
+import authContext from '../../context/Auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-    const [name, setName] = useState('');
+    const {signUpUser} = useContext(authContext);
+    const navigate = useNavigate();
+   //const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [agree, setAgree] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             alert("Passwords don't match!");
             return;
         }
-        console.log("Signed up with", name, email, password);
+        const obj ={
+            email : email,
+            password : password
+        }
+        await signUpUser(obj)
+        navigate('/login');
     };
     return (
         <div>
@@ -22,13 +31,13 @@ const SignUp = () => {
                 <div className="card p-4 login-box">
                     <h2 className="text-center mb-4">Sign Up</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                             <label htmlFor="name" className="form-label">Full Name</label>
                             <input type="text" className="form-control" id="name"
                                 placeholder="Enter your full name"
                                 value={name} onChange={(e) => setName(e.target.value)} required
                             />
-                        </div>
+                        </div> */}
 
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email address</label>

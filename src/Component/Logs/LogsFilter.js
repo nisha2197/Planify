@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const LogsFilter = (props) => {
 
   const context = useContext(logsContext);
-  const { year, getAllYear, months, getMonthsByYear, selectedYear, getAllLogs, addlog } = context;
+  const { year, getAllYear, months, getMonthsByYear, selectedYear, getAllLogs, addlog ,selectedMonth} = context;
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   //
@@ -57,7 +57,7 @@ const LogsFilter = (props) => {
           <button className="btn text-white rounded-pill dropdown-toggle" data-bs-toggle="dropdown" href="/"
             style={{ backgroundColor: props.mode }} role="button"
             aria-expanded="false">
-            Months
+            {selectedMonth}
           </button>
           <ul className="dropdown-menu" >
             {months && months.map((elements) => {

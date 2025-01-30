@@ -36,7 +36,6 @@ export default function Tasks(props) {
             addTaskById(obj); // Make sure the addTask function exists in context
             setNewTask({ description: '', status: 'Pending' }); // Reset form
             setIsAddingTask(false); // Close the form after submission
-            console.log(obj)
         }
     };
 

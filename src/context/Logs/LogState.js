@@ -1,6 +1,7 @@
 import logsContext from './LogsContext'
 import { useState } from 'react'
 import api from '../../Environment/environment'
+import apiService from '../../Services/apiService'
 
 const LogState = (props) => {
     const apiUrl = api;
@@ -9,8 +10,12 @@ const LogState = (props) => {
     const [months, setMonth] = useState([]);
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
-    const [selectedMonth, setSelectedMonth] = useState('');
+    let currentDate = new Date();
+    let options = { month: 'long' }; // 'long' gives the full month name
+    currentDate = currentDate.toLocaleString('en-US', options);
+    const [selectedMonth, setSelectedMonth] = useState(currentDate);
     const currentMonthIndex = new Date().getMonth() + 1;
+    
     //Get Month
     const getAllYear = async () => {
         // API Call 
@@ -102,7 +107,7 @@ const LogState = (props) => {
 
 
     return (
-        <logsContext.Provider value={{ logs, getAllLogs, year, getAllYear, months, getMonthsByYear, selectedYear, deleteLogById, addlog }}>
+        <logsContext.Provider value={{ logs, getAllLogs, year, getAllYear, months, getMonthsByYear, selectedYear, deleteLogById, addlog, selectedMonth }}>
             {props.children}
         </logsContext.Provider>
     )
