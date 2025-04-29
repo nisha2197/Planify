@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const Logs = (props) => {
 
     const navigate = useNavigate()
-    
+
     const themeColor = {
         backgroundColor: props.mode === '#40916c' ? 'white' : '#2c2929',
         color: props.mode === '#40916c' ? 'black' : 'white'
     }
     const iconColor = {
-        color: props.mode === '#40916c' ? '#40916c' : 'white' 
-        
+        color: props.mode === '#40916c' ? '#40916c' : 'white'
+
     }
     const context = useContext(logsContext);
-    const { logs, getAllYear,deleteLogById } = context;
+    const { logs, getAllYear, deleteLogById } = context;
     //const currentMonthIndex = new Date().getMonth() + 1;
     useEffect(() => {
         getAllYear()
@@ -23,8 +23,8 @@ const Logs = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const GotoViewTasks=(id)=>{
-     navigate(`/tasks/${id}`);
+    const GotoViewTasks = (id) => {
+        navigate(`/tasks/${id}`);
 
     }
     return (
@@ -43,8 +43,8 @@ const Logs = (props) => {
                                         <h5 className="card-title">{element.logDate.slice(0, 10)}</h5>
                                     </div>
                                     <div>
-                                        <i className="bi bi-eye-fill mx-2 fs-5" style={iconColor} onClick={()=> GotoViewTasks(element._id)}></i>
-                                        <i className="bi bi-trash3-fill fs-5" style={iconColor} onClick={()=>deleteLogById(element._id,)}></i>
+                                        <i className="bi bi-eye-fill mx-2 fs-5" style={iconColor} onClick={() => GotoViewTasks(element._id)}></i>
+                                        <i className="bi bi-trash3-fill fs-5" style={iconColor} onClick={() => deleteLogById(element._id,)}></i>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,10 @@ const Logs = (props) => {
                     })
                 ) :
                     (
-                        <div>No Logs Available.</div>
+                        <div style={{ color: props.mode === '#40916c' ? 'black' : 'white' }}>
+                            No Logs Available.
+                        </div>
+
                     )
             }
         </div>

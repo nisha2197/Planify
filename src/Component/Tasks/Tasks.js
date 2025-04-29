@@ -66,7 +66,7 @@ export default function Tasks(props) {
     // Save the changes made during editing
     const handleSaveEdit = () => {
         if (editedTask.description) {
-            editTaskById(editingTaskId, editedTask); // Make sure this function exists in context
+            editTaskById(editingTaskId, editedTask,id); // Make sure this function exists in context
             setEditingTaskId(null); // Close the editing mode
         }
     };

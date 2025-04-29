@@ -6,6 +6,7 @@ const TaskState = (props) => {
 
     const apiUrl = api;
     const [tasks, setTasks] = useState([]);
+    
 
     const getTasksByLogId = async (logId) => {
         const response = await fetch(`${apiUrl}/log/${logId}/task`, {
@@ -15,8 +16,8 @@ const TaskState = (props) => {
                 // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
             }
         });
-        const json = await response.json()
-        setTasks(json)
+        const TaskById = await response.json();
+        setTasks(TaskById)
     }
 
     // delete Task
@@ -31,10 +32,18 @@ const TaskState = (props) => {
         getTasksByLogId(id);
     }
     // Update Task
-    const editTaskById = async (taskId, description, status) => {
+    const editTaskById = async (taskId, editedTask,logId) => {
+       
         const obj = {
-            description: description, status: status
-        }
+            _id: taskId,
+            logId: logId,
+            description: editedTask.description, 
+            status: editedTask.status,
+            createdAt: new Date(),
+            updatedAt:new Date(),
+            __v: 0
+        } 
+        console.log(obj)
         // API Call 
         const response = await fetch(`${apiUrl}/task/${taskId}`, {
             method: 'PATCH',
@@ -42,9 +51,10 @@ const TaskState = (props) => {
                 'Content-Type': 'application/json',
                 // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
             },
+           
             body: JSON.stringify(obj)
         });
-
+        getTasksByLogId(logId)
     }
 
     // Add Task

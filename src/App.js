@@ -1,7 +1,7 @@
 import Navbar from './Component/Navbar';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useNavigate } from 'react';
 import Tasks from './Component/Tasks/Tasks';
 import Home from './Component/Home'
 import About from './Component/About'
@@ -11,13 +11,13 @@ import Login from './Component/Auth/Login';
 import AuthRoute from './Component/Auth/AuthRoute';
 import AuthState from './context/Auth/AuthState';
 import SignUp from './Component/Auth/SignUp';
+import RedirectToLogin from './Component/Auth/RedirectToLogin';
+import PrivateLayout from './Component/Layouts/PrivateLayout';
 
 function App() {
   const [mode, setThemeMode] = useState('#40916c');
   const [isDarkModeEnabled, setDarkModeEnabled] = useState(false);
-  //const[btncColor,setbtncColor] = useState('');
-
-
+  
   // Load theme from localStorage on page load
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -72,23 +72,21 @@ function App() {
         <TaskState>
           <LogState>
             <BrowserRouter>
-              {/* <AuthRoute element={<Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />} /> */}
-              <Navbar mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<RedirectToLogin />} />
+              <Route path="/login" element={<AuthRoute element={<Login />} publicRoute={true} />} />
+              <Route path="/signup" element={<AuthRoute element={<SignUp />} publicRoute={true} />} />
 
-              <Routes>
-                {/* Protect tasks route with PrivateRoute */}
-                <Route
-                  path='/tasks/:id'
-                  element={<AuthRoute element={<Tasks mode={mode} />} />}
-                />
-                {/* <Route path='/tasks/:id' element={<Tasks mode={mode} />} /> */}
-                <Route path='/home' element={<AuthRoute element={<Home mode={mode} />} />} />
-                <Route path='/about' element={<AuthRoute element={<About />} />} />
-                {/* <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<SignUp />} /> */}
-                <Route path='/login' element={<AuthRoute element={<Login />} publicRoute={true} />} />
-                <Route path='/signup' element={<AuthRoute element={<SignUp />} publicRoute={true} />} />
-              </Routes>
+              {/* Private Routes Wrapped in Layout with Navbar */}
+              <Route element={
+                <PrivateLayout mode={mode} toggleThemMode={toggleThemMode} isDarkModeEnabled={isDarkModeEnabled} />
+              }>
+                <Route path="/home" element={<AuthRoute element={<Home mode={mode} />} />} />
+                <Route path="/about" element={<AuthRoute element={<About />} />} />
+                <Route path="/tasks/:id" element={<AuthRoute element={<Tasks mode={mode} />} />} />
+              </Route>
+            </Routes>
             </BrowserRouter>
           </LogState>
         </TaskState>
